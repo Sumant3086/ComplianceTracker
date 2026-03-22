@@ -1,32 +1,44 @@
 const express = require('express');
-const { readDb, writeDb } = require('../models/dbStore');
 const crypto = require('crypto');
+const Task = require('../models/Task');
+const Client = require('../models/Client');
 
 const router = express.Router();
 
+// Format helper
+const formatTask = (t) => ({
+    id: t.id,
+    client_id: t.client_id,
+    title: t.title,
+    description: t.description,
+    category: t.category,
+    due_date: t.due_date,
+    status: t.status,
+    priority: t.priority
+});
+
 // GET tasks for a specific client
-router.get('/client/:clientId', (req, res) => {
+router.get('/client/:clientId', async (req, res) => {
     try {
-        const db = readDb();
-        const clientTasks = db.tasks.filter(t => t.client_id === req.params.clientId);
-        res.json(clientTasks);
+        const tasks = await Task.find({ client_id: req.params.clientId });
+        res.json(tasks.map(formatTask));
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving tasks' });
     }
 });
 
-// GET all tasks (optional, useful for debugging)
-router.get('/', (req, res) => {
+// GET all tasks
+router.get('/', async (req, res) => {
     try {
-        const db = readDb();
-        res.json(db.tasks);
+        const tasks = await Task.find({});
+        res.json(tasks.map(formatTask));
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving tasks' });
     }
 });
 
 // CREATE a new task
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     try {
         const { client_id, title, description, category, due_date, status, priority } = req.body;
 
@@ -35,14 +47,13 @@ router.post('/', (req, res) => {
             return res.status(400).json({ message: 'Missing required fields' });
         }
 
-        const db = readDb();
-
         // Ensure client exists
-        if (!db.clients.some(c => c.id === client_id)) {
+        const client = await Client.findOne({ id: client_id });
+        if (!client) {
             return res.status(404).json({ message: 'Client not found' });
         }
 
-        const newTask = {
+        const newTask = new Task({
             id: crypto.randomUUID(),
             client_id,
             title,
@@ -51,12 +62,10 @@ router.post('/', (req, res) => {
             due_date,
             status,
             priority: priority || 'Medium'
-        };
+        });
 
-        db.tasks.push(newTask);
-        writeDb(db);
-
-        res.status(201).json(newTask);
+        await newTask.save();
+        res.status(201).json(formatTask(newTask));
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error creating task' });
@@ -64,47 +73,34 @@ router.post('/', (req, res) => {
 });
 
 // UPDATE task status / details
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-        const db = readDb();
-        const taskIndex = db.tasks.findIndex(t => t.id === req.params.id);
+        const updates = req.body;
 
-        if (taskIndex === -1) {
+        // Find and update natively in Mongo
+        const task = await Task.findOneAndUpdate(
+            { id: req.params.id },
+            { $set: updates },
+            { new: true } // Return updated doc
+        );
+
+        if (!task) {
             return res.status(404).json({ message: 'Task not found' });
         }
 
-        // Update only allowed fields sent in request
-        const updates = req.body;
-        const task = db.tasks[taskIndex];
-
-        if (updates.title) task.title = updates.title;
-        if (updates.description !== undefined) task.description = updates.description;
-        if (updates.category) task.category = updates.category;
-        if (updates.due_date) task.due_date = updates.due_date;
-        if (updates.status) task.status = updates.status;
-        if (updates.priority) task.priority = updates.priority;
-
-        db.tasks[taskIndex] = task;
-        writeDb(db);
-
-        res.json(task);
+        res.json(formatTask(task));
     } catch (error) {
         res.status(500).json({ message: 'Error updating task' });
     }
 });
 
 // DELETE a task
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
     try {
-        const db = readDb();
-        const taskIndex = db.tasks.findIndex(t => t.id === req.params.id);
-
-        if (taskIndex === -1) {
+        const task = await Task.findOneAndDelete({ id: req.params.id });
+        if (!task) {
             return res.status(404).json({ message: 'Task not found' });
         }
-
-        db.tasks.splice(taskIndex, 1);
-        writeDb(db);
 
         res.json({ message: 'Task deleted successfully' });
     } catch (error) {
