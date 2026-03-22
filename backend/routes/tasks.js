@@ -93,4 +93,23 @@ router.put('/:id', (req, res) => {
     }
 });
 
+// DELETE a task
+router.delete('/:id', (req, res) => {
+    try {
+        const db = readDb();
+        const taskIndex = db.tasks.findIndex(t => t.id === req.params.id);
+
+        if (taskIndex === -1) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        db.tasks.splice(taskIndex, 1);
+        writeDb(db);
+
+        res.json({ message: 'Task deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting task' });
+    }
+});
+
 module.exports = router;
