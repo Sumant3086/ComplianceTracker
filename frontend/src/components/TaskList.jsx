@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { format, isBefore, startOfToday } from 'date-fns';
-import { Search, SortAsc, SortDesc } from 'lucide-react';
+import { Search, SortAsc, SortDesc, Trash2 } from 'lucide-react';
 
-const TaskList = ({ tasks, onToggleStatus }) => {
+const TaskList = ({ tasks, onToggleStatus, onDeleteTask }) => {
     const [filterStatus, setFilterStatus] = useState('All');
     const [filterCategory, setFilterCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
@@ -121,12 +121,21 @@ const TaskList = ({ tasks, onToggleStatus }) => {
                                     </div>
                                 </div>
 
-                                <button
-                                    onClick={() => onToggleStatus(task)}
-                                    className={`px-4 py-2 rounded font-medium text-sm transition-colors ${task.status === 'Completed' ? 'bg-gray-200 text-gray-700 hover:bg-gray-300' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
-                                >
-                                    {task.status === 'Completed' ? 'Reopen' : 'Complete'}
-                                </button>
+                                <div className="flex gap-2">
+                                    <button
+                                        onClick={() => onToggleStatus(task)}
+                                        className={`px-4 py-2 rounded font-medium text-sm transition-colors ${task.status === 'Completed' ? 'bg-gray-200 text-gray-700 hover:bg-gray-300' : 'bg-indigo-600 text-white hover:bg-indigo-700'}`}
+                                    >
+                                        {task.status === 'Completed' ? 'Reopen' : 'Complete'}
+                                    </button>
+                                    <button
+                                        onClick={() => onDeleteTask(task.id)}
+                                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
+                                        title="Delete task"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
+                                </div>
                             </div>
                         );
                     })
