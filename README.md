@@ -12,13 +12,14 @@ This is a simple MERN-lite web application to track compliance tasks for differe
 > *(Alternatively, run it locally with the instructions below)*
 
 ## Architecture & Tradeoffs
-1. **Database:** Instead of requiring a MongoDB Atlas URI or local MongoDB installation (which could complicate your setup/testing), I used a lightweight **JSON-based persistent storage (`backend/data/db.json`)**. This perfectly satisfies the "simple storage is fine" requirement, ensures the app runs everywhere instantly, and provides the exact same API signature as a MongoDB-backed system.
+1. **Database:** Built natively with **MongoDB Atlas** + Mongoose for a true MERN-stack architecture.
 2. **Frameworks:** Used Vite + React + Tailwind for a snappy, clean frontend, and Node.js + Express for the backend.
 3. **Commit History:** Developed iteratively with meaningful, atomic commits to show the progression of the application.
 
 ## Local Setup
 
 ### 1. Start the Backend
+1. Create a `.env` file in the `backend/` directory and add your `MONGO_URI`.
 ```bash
 cd backend
 npm install
