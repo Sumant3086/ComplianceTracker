@@ -1,0 +1,54 @@
+{
+    "clients": [
+        {
+            "id": "c1",
+            "company_name": "Acme Corp",
+            "country": "USA",
+            "entity_type": "LLC"
+        },
+        {
+            "id": "c2",
+            "company_name": "Global Tech",
+            "country": "UK",
+            "entity_type": "LTD"
+        },
+        {
+            "id": "c3",
+            "company_name": "Startup Inc",
+            "country": "Canada",
+            "entity_type": "INC"
+        }
+    ],
+    "tasks": [
+        {
+            "id": "t1",
+            "client_id": "c1",
+            "title": "Annual Tax Filing",
+            "description": "Submit annual tax returns to IRS.",
+            "category": "Tax",
+            "due_date": "2026-04-15",
+            "status": "Pending",
+            "priority": "High"
+        },
+        {
+            "id": "t2",
+            "client_id": "c1",
+            "title": "State Registration Renewal",
+            "description": "Renew state LLC registration.",
+            "category": "Filing",
+            "due_date": "2026-03-01",
+            "status": "Pending",
+            "priority": "Medium"
+        },
+        {
+            "id": "t3",
+            "client_id": "c2",
+            "title": "VAT Return Q1",
+            "description": "Submit Q1 VAT return.",
+            "category": "Tax",
+            "due_date": "2026-05-07",
+            "status": "Completed",
+            "priority": "High"
+        }
+    ]
+}
