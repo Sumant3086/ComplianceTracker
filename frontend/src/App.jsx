@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getClients, getTasks, createTask, updateTask } from './api';
+import { getClients, getTasks, createTask, updateTask, deleteTask } from './api';
 import ClientList from './components/ClientList';
 import TaskList from './components/TaskList';
 import TaskForm from './components/TaskForm';
@@ -66,6 +66,16 @@ function App() {
     }
   };
 
+  const handleDeleteTask = async (taskId) => {
+    if (!window.confirm('Are you sure you want to delete this task?')) return;
+    try {
+      await deleteTask(taskId);
+      setTasks(tasks.filter(t => t.id !== taskId));
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (loading) {
     return <div className="flex h-screen items-center justify-center bg-gray-50 text-xl font-medium text-gray-500">Loading Compliance Tracker...</div>;
   }
@@ -115,6 +125,7 @@ function App() {
             <TaskList
               tasks={tasks}
               onToggleStatus={handleToggleStatus}
+              onDeleteTask={handleDeleteTask}
             />
           ) : (
             <div className="flex-1 flex items-center justify-center text-gray-400">
