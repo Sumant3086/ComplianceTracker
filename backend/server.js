@@ -16,10 +16,7 @@ app.use(express.json());
 
 // MongoDB connection
 const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/compliancetracker';
-mongoose.connect(mongoURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-}).then(async () => {
+mongoose.connect(mongoURI).then(async () => {
     console.log('Connected to MongoDB');
     await seedDatabase();
 }).catch(err => {
