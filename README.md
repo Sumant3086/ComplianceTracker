@@ -46,16 +46,16 @@ To run the Frontend:
 
 TRADEOFFS
 
-Authentication and complex user login flows were intentionally omitted to prioritize core compliance tracking logic and maintain absolute simplicity as requested by the assignment parameters.
+Authentication and complex user login flows were intentionally omitted. The decision was made to prioritize a working product end-to-end with clear core functionality, rather than building incomplete complex features.
 
-Tailwind CSS was chosen over a heavy third party component library to guarantee complete control over the interface styling without introducing bloated package dependencies.
+Tailwind CSS was chosen over heavy third-party component libraries. This guarantees a clean structure and total control over the UI without bloated dependencies, perfectly aligning with the instruction to focus on usability over heavy design.
 
-The backend API relies on standard Express routing rather than a complex GraphQL architecture which perfectly suits the straightforward operations required by this assignment.
+The backend API relies on standard Node and Express REST routing rather than a complex architecture. This keeps the codebase minimal, readable, and highly focused on the requested core features.
 
 ASSUMPTIONS
 
-It was assumed that the primary goal is a fully functional end to end data system highlighting a true architecture rather than an overly complex dashboard.
+It was assumed that demonstrating clear thinking and a clean full-stack structure was more important than achieving visual perfection, so the UI was kept strictly neat and functional.
 
 It was assumed that compliance task statuses are strictly binary for the immediate scope of this tracking system.
 
-It was assumed that overdue tasks should be dynamically calculated based purely on checking the current system date against the exact task due date.
+It was assumed that overdue tasks should be dynamically calculated based purely on checking the current system date against the exact task due date, avoiding the need for complex database chron jobs.
