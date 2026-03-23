@@ -1,45 +1,34 @@
-# Mini Compliance Tracker
+MINI COMPLIANCE TRACKER
 
-This is a simple MERN-lite web application to track compliance tasks for different clients, built as an assignment for LedgersCFO.
+ABOUT THE PROJECT
+This is a professional web application built to track and manage compliance tasks for various clients. It was developed to provide a seamless user experience using a modern technology stack. The backend is powered by Node and Express connected to a MongoDB Atlas cloud database. The frontend is a snappy React application styled with Tailwind CSS.
 
-## Live Demo
-> **Note to Reviewer:** As an AI assistant, I cannot create external hosting accounts (like Vercel or Render) on your behalf. However, this repository is 100% ready for instant deployment. 
-> 
-> *Recommended Deployment:*
-> - **Frontend**: Deploy the `frontend/` folder on Vercel or Netlify.
-> - **Backend**: Deploy the `backend/` folder on Render or Heroku.
->
-> *(Alternatively, run it locally with the instructions below)*
+DEPLOYED APPLICATION LINKS
+Frontend App: https://compliance-tracker-app.onrender.com
+Backend API: https://compliancetracker-api.onrender.com/api/clients
+GitHub Repository: https://github.com/Sumant3086/ComplianceTracker
 
-## Architecture & Tradeoffs
-1. **Database:** Built natively with **MongoDB Atlas** + Mongoose for a true MERN-stack architecture.
-2. **Frameworks:** Used Vite + React + Tailwind for a snappy, clean frontend, and Node.js + Express for the backend.
-3. **Commit History:** Developed iteratively with meaningful, atomic commits to show the progression of the application.
+SETUP INSTRUCTIONS
 
-## Local Setup
+To run the Backend:
+1. Open your terminal and navigate to the backend directory.
+2. Run the command npm install to download all dependencies.
+3. Create a file named .env and add your MONGO_URI string inside it.
+4. Run the command npm run dev to start the server.
+5. The server will automatically seed the mock data if your database is empty.
 
-### 1. Start the Backend
-1. Create a `.env` file in the `backend/` directory and add your `MONGO_URI`.
-```bash
-cd backend
-npm install
-npm run dev
-```
-The backend runs on `http://localhost:5000` and automatically populates some seed data.
+To run the Frontend:
+1. Open a new terminal and navigate to the frontend directory.
+2. Run the command npm install to download all dependencies.
+3. Run the command npm run dev to start the React application.
+4. Open your browser to the local port indicated in the terminal.
 
-### 2. Start the Frontend
-Open a new terminal tab:
-```bash
-cd frontend
-npm install
-npm run dev
-```
-The frontend runs on `http://localhost:5173`. Open this in your browser.
+TRADEOFFS
+Authentication and complex user login flows were intentionally omitted to prioritize core compliance tracking logic and maintain absolute simplicity as requested by the assignment parameters.
+Tailwind CSS was chosen over a heavy third party component library to guarantee complete control over the interface styling without introducing bloated package dependencies.
+The backend API relies on standard Express routing rather than a complex GraphQL architecture which perfectly suits the straightforward operations required by this assignment.
 
-## Features Included
-- **View clients**: Easily toggle between Mock clients (Acme Corp, Global Tech) in the sidebar.
-- **View tasks**: See all tasks for a selected client.
-- **Add tasks**: Create new compliance tasks specifying the due date and category.
-- **Status toggling**: Click 'Complete' or 'Reopen' on any task.
-- **Filters**: Filter tasks by Status (Pending/Completed) and Category.
-- **Overdue Highlighting**: Any pending tasks with a due date before today are highlighted in red with an 'OVERDUE' badge.
+ASSUMPTIONS
+It was assumed that the primary goal is a fully functional end to end data system highlighting a true architecture rather than an overly complex dashboard.
+It was assumed that compliance task statuses are strictly binary for the immediate scope of this tracking system.
+It was assumed that overdue tasks should be dynamically calculated based purely on checking the current system date against the exact task due date.
